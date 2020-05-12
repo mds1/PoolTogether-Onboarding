@@ -1,0 +1,32 @@
+{
+  "name": "pooltogether-onboarding",
+  "version": "0.1.0",
+  "description": "The easiest way to start using PoolTogether",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npx oz compile",
+    "test": "npx oz compile && mocha --exit --timeout 0 test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mds1/PoolTogether-Onboarding.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mds1/PoolTogether-Onboarding/issues"
+  },
+  "homepage": "https://github.com/mds1/PoolTogether-Onboarding#readme",
+  "devDependencies": {
+    "@openzeppelin/cli": "^2.8.2",
+    "@openzeppelin/test-environment": "^0.1.4",
+    "@openzeppelin/test-helpers": "^0.5.5",
+    "chai": "^4.2.0",
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "mocha": "^7.1.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
