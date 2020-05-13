@@ -16,8 +16,12 @@ contract UserPool is Ownable, Initializable {
   /**
    * @notice Define contracts we need access to
    */
-  BasePool constant pool = BasePool(0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958);
-  IERC20 constant dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
+  // Mainnet
+  // BasePool constant pool = BasePool(0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958);
+  // IERC20 constant dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
+  // Kovan
+  BasePool constant pool = BasePool(0xC3a62C8Af55c59642071bC171Ebd05Eb2479B663);
+  IERC20 constant dai = IERC20(0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa);
 
   /**
    * @notice Emitted when user deposits into the pool
