@@ -1,6 +1,9 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout
+    view="lHh Lpr lFf"
+    class="main-content"
+  >
+    <q-header class="transparent">
       <div class="row justify-between items-center no-wrap all-content-format">
         <div class="col-auto">
           <!-- LOGO AND TITLE -->
@@ -27,7 +30,6 @@
       </div>
     </q-header>
 
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -43,4 +45,13 @@ export default {
     };
   },
 };
+/* eslint-disable */
 </script>
+
+<style lang="sass" scoped>
+.transparent
+  opacity:
+
+.main-content
+  background-image: linear-gradient(to bottom right, $primarylight, $primary)
+</style>

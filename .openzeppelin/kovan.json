@@ -1,0 +1,21 @@
+{
+  "contracts": {},
+  "solidityLibs": {},
+  "proxies": {
+    "pooltogether-onboarding/UserPoolFactory": [
+      {
+        "address": "0x9D1741A4a83e4CC56dDC49A7bB2729C37FB81684",
+        "kind": "NonProxy",
+        "bytecodeHash": "2a38d6f195fead3a1b4846cf6862205ce47e7913808aebda91612b8e778f27bc"
+      }
+    ],
+    "pooltogether-onboarding/UserPool": [
+      {
+        "address": "0x3C66293942C39084e5Da5c9Ec04580717B27EFd8",
+        "kind": "NonProxy",
+        "bytecodeHash": "2313eeb835007a0a5e94303267e849a77fc9dd8b1677587188b06ac06bf74773"
+      }
+    ]
+  },
+  "manifestVersion": "2.2"
+}

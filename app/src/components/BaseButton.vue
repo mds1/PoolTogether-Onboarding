@@ -1,6 +1,7 @@
 <template>
   <div>
     <q-btn
+      id="style"
       class="q-my-sm"
       :class="{'full-width': fullWidth}"
       :color="color"
@@ -36,7 +37,7 @@ export default {
     flat: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
 
     fullWidth: {
@@ -83,3 +84,13 @@ export default {
   },
 };
 </script>
+
+<style lang="sass" scoped>
+#style
+  border: 4px solid $secondary
+  border-bottom-left-radius: 35% 100%
+  border-bottom-right-radius: 35% 100%
+  border-top-left-radius: 35% 100%
+  border-top-right-radius: 35% 100%
+  padding: 0 1rem
+</style>

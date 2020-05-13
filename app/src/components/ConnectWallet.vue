@@ -12,7 +12,6 @@
         />
         <base-button
           class="col-auto q-ml-md"
-          color="primary"
           :full-width="fullWidth"
           :label="label"
           :loading="isLoading"

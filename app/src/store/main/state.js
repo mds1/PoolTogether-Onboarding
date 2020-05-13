@@ -5,5 +5,14 @@ export default function () {
     provider: undefined,
     ethersProvider: undefined,
     userAddress: undefined,
+    // Prize info
+    pt: {
+      totalEarningInterest: undefined,
+      eligibleTickets: undefined,
+      openTickets: undefined,
+      sponsored: undefined,
+      estimatedPrize: undefined,
+      prizeDrawingDate: undefined,
+    },
   };
 }
