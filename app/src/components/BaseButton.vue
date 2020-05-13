@@ -9,7 +9,8 @@
       :label="label"
       :loading="loading"
       :outline="outline"
-      rounded
+      :rounded="rounded"
+      :size="size"
       @click="handleClick"
     />
   </div>
@@ -23,7 +24,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'secondary',
     },
 
     dense: {
@@ -60,6 +61,18 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+
+    rounded: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+
+    size: {
+      type: String,
+      required: false,
+      default: undefined,
     },
   },
 

@@ -21,16 +21,7 @@
         <div class="col-auto q-mr-md">
           <!-- TODO -->
           <div class="row justify-end items-center q-mt-xs">
-            <base-button
-              class="q-mr-lg"
-              label="Log In"
-              :outline="true"
-              color="secondary"
-            />
-            <base-button
-              label="Sign Up"
-              color="secondary"
-            />
+            <!-- -->
           </div>
         </div>
       </div>
