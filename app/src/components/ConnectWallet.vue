@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Connect Wallet -->
-    <div style="max-width: 350px; ">
+    <div style="max-width: 450px; ">
       <div class="row justify-center items-center">
         <base-input
           v-model="email"
@@ -48,7 +48,7 @@ export default {
     label: {
       type: String,
       required: false,
-      default: 'Login',
+      default: 'Log in',
     },
   },
 

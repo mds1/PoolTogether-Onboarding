@@ -3,6 +3,7 @@
     <q-input
       v-model="content"
       class="q-my-sm"
+      dark
       filled
       :label="label"
       lazy-rules
