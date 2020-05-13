@@ -13,7 +13,7 @@ const abi = {
 
 // Define constants and helpers
 const MAX_UINT256 = constants.MAX_UINT256.toString();
-const { parseEther, formatEther } = ethers.utils;
+const { parseEther } = ethers.utils;
 const daiHolder = process.env.DAI_HOLDER;
 
 // Get contract instances of external contracts

@@ -7,6 +7,15 @@ import "./BasePool.sol";
 
 
 contract UserPool is Ownable, Initializable {
+  /**
+   * @notice This variable is the address of the parent factory contract. This is used to
+   * restrict function calls to being either directly from the user or from the factory contract
+   */
+  address public factory;
+
+  /**
+   * @notice Define contracts we need access to
+   */
   BasePool constant pool = BasePool(0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958);
   IERC20 constant dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
 
@@ -42,6 +51,11 @@ contract UserPool is Ownable, Initializable {
   //                                        MAIN FUNCTIONALITY
   // ===============================================================================================
 
+  modifier onlyUser() {
+    require(owner() == _msgSender() || factory == _msgSender(), "UserPool: Caller not authorized");
+    _;
+  }
+
   /**
    * @notice Replaces constructor since these are deployed as minimal proxies from a factory
    * @param _user The user who this contract is for
@@ -71,7 +85,7 @@ contract UserPool is Ownable, Initializable {
    * @param _amount Amount of Dai to withdraw
    * @param _recipient Address to send funds to
    */
-  function withdraw(uint256 _amount, address _recipient) external onlyOwner {
+  function withdraw(uint256 _amount, address _recipient) external onlyUser {
     pool.withdraw(_amount);
     require(dai.transfer(_recipient, _amount), "UserPool: Withdrawal failed");
     emit Withdrawn(_amount, _recipient);
@@ -87,7 +101,7 @@ contract UserPool is Ownable, Initializable {
    * @param _tokenAddress address of token to send
    * @param _recipient address to send tokens to
    */
-  function withdrawTokens(address _tokenAddress, address _recipient) external onlyOwner {
+  function withdrawTokens(address _tokenAddress, address _recipient) external onlyUser {
     IERC20 _token = IERC20(_tokenAddress);
     uint256 _balance = _token.balanceOf(address(this));
     emit TokensWithdrawn(_balance, _tokenAddress, _recipient);
@@ -99,7 +113,7 @@ contract UserPool is Ownable, Initializable {
    * accidentally sent to this contract.
    * @param _recipient address to send tokens to
    */
-  function withdrawEther(address _recipient) external onlyOwner {
+  function withdrawEther(address _recipient) external onlyUser {
     uint256 _balance = address(this).balance;
     emit EtherWithdrawn(_balance, _recipient);
     payable(_recipient).transfer(_balance);
