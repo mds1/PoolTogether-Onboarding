@@ -66,14 +66,20 @@ export default {
     }),
   },
 
+  async mounted() {
+    const isLoggedIn = await magic.user.isLoggedIn();
+    if (isLoggedIn) await this.$store.dispatch('main/setEthereumData', magic);
+  },
+
   methods: {
     async connectWallet() {
       try {
         this.isLoading = true;
         await magic.auth.loginWithMagicLink({ email: this.email });
         await this.$store.dispatch('main/setEthereumData', magic);
+        this.$router.push({ name: 'dashboard' });
       } catch (err) {
-        this.showError(err, 'Unable to connect wallet. Please try again.');
+        this.showError(err, 'Unable to log in. Please try again.');
       } finally {
         this.isLoading = false;
       }

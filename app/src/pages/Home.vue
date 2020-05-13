@@ -11,9 +11,21 @@
     </div>
 
     <!-- Login -->
-    <div class="column content-center text-center q-mt-xl">
-      <div>Enter your email address to magically login without creating an account</div>
-      <connect-wallet />
+    <div v-if="!userAddress">
+      <div class="column content-center text-center q-mt-xl">
+        <div>Enter your email address to magically login without creating an account</div>
+        <connect-wallet />
+      </div>
+    </div>
+
+    <div
+      v-else
+      class="row justify-center q-mt-xl"
+    >
+      <base-button
+        label="Go to Your Dashboard"
+        @click="$router.push({name: 'dashboard'})"
+      />
     </div>
 
     <!-- What is it -->
@@ -34,6 +46,7 @@
 <script>
 import { mapState } from 'vuex';
 import ConnectWallet from 'components/ConnectWallet';
+import auth from 'src/mixins/auth';
 
 export default {
   name: 'Home',
@@ -42,12 +55,15 @@ export default {
     ConnectWallet,
   },
 
+  mixins: [auth],
+
   computed: {
     ...mapState({
       prizeData: (state) => state.main.pt,
     }),
 
     prizeAmount() {
+      if (!this.prizeData.estimatedPrize) return '-';
       return Math.round(Number(this.prizeData.estimatedPrize));
     },
   },
