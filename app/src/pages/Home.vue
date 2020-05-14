@@ -11,7 +11,11 @@
     </div>
 
     <!-- Login -->
-    <div v-if="!userAddress">
+    <div v-if="isAuthCheckLoading">
+      <loading-spinner />
+    </div>
+
+    <div v-else-if="!userAddress">
       <div class="column content-center text-center q-mt-xl">
         <div>Enter your email address to magically login without creating an account</div>
         <connect-wallet />

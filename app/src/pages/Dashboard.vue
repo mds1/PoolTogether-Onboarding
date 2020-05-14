@@ -4,7 +4,11 @@
       Dashboard
     </h3>
 
-    <div v-if="!userAddress">
+    <div v-if="isAuthCheckLoading">
+      <loading-spinner />
+    </div>
+
+    <div v-else-if="!userAddress">
       <div class="column content-center text-center">
         Please login to see your dashboard!
         <connect-wallet />

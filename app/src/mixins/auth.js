@@ -11,6 +11,7 @@ magic.preload();
 export default {
   data() {
     return {
+      isAuthCheckLoading: undefined,
       magic: undefined,
     };
   },
@@ -23,8 +24,10 @@ export default {
   },
 
   async mounted() {
+    this.isAuthCheckLoading = true;
     const isLoggedIn = await magic.user.isLoggedIn();
     this.magic = magic;
     if (isLoggedIn) await this.$store.dispatch('main/setEthereumData', magic);
+    this.isAuthCheckLoading = false;
   },
 };
