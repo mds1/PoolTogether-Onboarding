@@ -4,6 +4,7 @@ export function setWallet(state, wallet) {
   state.provider = wallet.provider;
   state.ethersProvider = wallet.ethersProvider;
   state.userAddress = wallet.userAddress;
+  state.email = wallet.email;
 }
 
 export function setPrizeData(state, prizeData) {

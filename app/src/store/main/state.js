@@ -5,6 +5,7 @@ export default function () {
     provider: undefined,
     ethersProvider: undefined,
     userAddress: undefined,
+    email: undefined,
     // Prize info
     pt: {
       totalEarningInterest: undefined,

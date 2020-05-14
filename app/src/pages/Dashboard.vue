@@ -16,13 +16,25 @@
     </div>
 
     <div v-else>
-      <div class="row justify-center">
-        Here is your dashboard
+      <div class="row justify-evenly items-stretch">
+        <div class="col-xs-3">
+          <dashboard-fiat-deposit />
+        </div>
+        <div class="col-xs-3">
+          <dashboard-enter-pool />
+        </div>
+        <div class="col-xs-3">
+          <dashboard-exit-pool />
+        </div>
       </div>
     </div>
 
     <div class="q-mt-xl">
-      <base-button
+      <q-btn
+        v-if="!isAuthCheckLoading"
+        color="secondary"
+        class="q-mt-xl"
+        :flat="true"
         label="Logout"
         @click="logout"
       />
@@ -33,6 +45,9 @@
 <script>
 import { mapState } from 'vuex';
 import ConnectWallet from 'components/ConnectWallet';
+import DashboardFiatDeposit from 'components/DashboardFiatDeposit';
+import DashboardEnterPool from 'components/DashboardEnterPool';
+import DashboardExitPool from 'components/DashboardExitPool';
 import auth from 'src/mixins/auth';
 
 export default {
@@ -40,6 +55,9 @@ export default {
 
   components: {
     ConnectWallet,
+    DashboardFiatDeposit,
+    DashboardEnterPool,
+    DashboardExitPool,
   },
 
   mixins: [auth],

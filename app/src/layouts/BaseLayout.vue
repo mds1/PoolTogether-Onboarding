@@ -20,11 +20,20 @@
             >
           </div>
         </div>
-        <!-- ADDRESS AND SETTINGS AND SETTINGS -->
-        <div class="col-auto q-mr-md">
-          <!-- TODO -->
+        <!-- ADDRESS AND SETTINGS -->
+        <div class="col-auto q-mr-lg">
           <div class="row justify-end items-center q-mt-xs">
-            <!-- -->
+            <div v-if="email">
+              <div style="font-size: 0.75rem">
+                Logged in as
+              </div>
+              <div>
+                {{ email }}
+              </div>
+            </div>
+            <div v-else>
+              <!--  -->
+            </div>
           </div>
         </div>
       </div>
@@ -37,12 +46,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'BaseLayout',
 
   data() {
     return {
     };
+  },
+
+  computed: {
+    ...mapState({
+      email: (state) => state.main.email,
+    }),
   },
 };
 /* eslint-disable */

@@ -72,8 +72,9 @@ export async function setDefaultEthereumData({ commit }, ethersProvider) {
   const provider = undefined;
   const signer = undefined;
   const userAddress = undefined;
+  const email = undefined;
   commit('setWallet', {
-    magic, provider, ethersProvider, signer, userAddress,
+    magic, provider, ethersProvider, signer, userAddress, email,
   });
 }
 
@@ -83,9 +84,9 @@ export async function setEthereumData({ commit }, magic) {
   const ethersProvider = new ethers.providers.Web3Provider(provider);
   const signer = ethersProvider.getSigner();
   const metadata = await magic.user.getMetadata();
-  const userAddress = metadata.publicAddress;
+  const { email, publicAddress } = metadata;
   commit('setWallet', {
-    magic, provider, ethersProvider, signer, userAddress,
+    magic, provider, ethersProvider, signer, userAddress: publicAddress, email,
   });
 }
 
