@@ -121,7 +121,7 @@ export async function setPrizeData({ commit, state }) {
   const cdai = new ethers.Contract(addresses.Cdai, abi.cdai, state.ethersProvider);
 
   // Read data ----------------------------------------------
-  const [, response] = await multicall.aggregate([
+  const [, response] = await multicall.callStatic.aggregate([
     [addresses.BasePool, basePool.interface.encodeFunctionData('currentCommittedDrawId')], // draw ID
     [addresses.BasePool, basePool.interface.encodeFunctionData('balance')], // all deposits + accrued interest
     [addresses.BasePool, basePool.interface.encodeFunctionData('accountedBalance')], // funds allocated to winners, etc.
