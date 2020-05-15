@@ -6,7 +6,11 @@ export default function () {
     ethersProvider: undefined,
     userAddress: undefined,
     email: undefined,
-    proxy: undefined,
+    // Contracts
+    proxyLogic: undefined, // proxy logic address
+    proxy: undefined, // user proxy address
+    proxyInstance: undefined, // user's proxy contract instance
+    factoryInstance: undefined, // factory instance
     // Prize info
     pt: {
       totalEarningInterest: undefined,

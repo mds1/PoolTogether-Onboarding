@@ -1,6 +1,9 @@
 import { ethers } from 'ethers';
 import { date } from 'quasar';
 
+const Web3 = require('web3'); // required for Open Zeppelin GSN provider
+const { GSNProvider } = require('@openzeppelin/gsn-provider');
+
 // Helpers for PoolTogether prize calculation ======================================================
 const pt = require('pooltogetherjs');
 const poolTogetherDrawDates = require('src/utils/poolTogetherDrawDates');
@@ -82,7 +85,12 @@ export async function setDefaultEthereumData({ commit }, ethersProvider) {
     signer: undefined,
     userAddress: undefined,
     email: undefined,
+    proxyLogic: addresses.UserPool,
     proxy: undefined,
+    proxyInstance: undefined,
+    factoryInstance: new ethers.Contract(
+      addresses.UserPoolFactory, abi.userPoolFactory, ethersProvider,
+    ),
   });
 }
 
@@ -100,9 +108,34 @@ export async function setEthereumData({ commit }, magic) {
   );
   const proxy = await factory.getContract(publicAddress);
 
+  // Create GSN factory instance and regular proxy instance
+  const web3gsn = new Web3(new GSNProvider(provider));
+  const proxyInstance = new web3gsn.eth.Contract(abi.userPool, proxy);
+  const factoryInstance = new web3gsn.eth.Contract(abi.userPoolFactory, addresses.UserPoolFactory);
+
+
   commit('setWallet', {
-    magic, provider, ethersProvider, signer, userAddress: publicAddress, email, proxy,
+    magic,
+    provider,
+    ethersProvider,
+    signer,
+    userAddress: publicAddress,
+    email,
+    proxyLogic: addresses.UserPool,
+    proxy,
+    proxyInstance,
+    factoryInstance,
   });
+}
+
+export async function getProxy({ commit }, userAddress) {
+  // Get regular contract instances with ethers to check user's proxy address
+  const provider = ethers.getDefaultProvider('kovan');
+  const factory = new ethers.Contract(
+    addresses.UserPoolFactory, abi.userPoolFactory, provider,
+  );
+  const userProxy = await factory.getContract(userAddress);
+  commit('setProxyAddress', userProxy);
 }
 
 export async function setPrizeData({ commit, state }) {

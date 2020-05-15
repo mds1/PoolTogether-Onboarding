@@ -1,11 +1,20 @@
 export function setWallet(state, wallet) {
+  // Account info
   state.magic = wallet.magic;
   state.signer = wallet.signer;
   state.provider = wallet.provider;
   state.ethersProvider = wallet.ethersProvider;
   state.userAddress = wallet.userAddress;
   state.email = wallet.email;
+  // Contracts
+  state.proxyLogic = wallet.proxyLogic;
   state.proxy = wallet.proxy;
+  state.proxyInstance = wallet.proxyInstance;
+  state.factoryInstance = wallet.factoryInstance;
+}
+
+export function setProxyAddress(state, address) {
+  state.proxy = address;
 }
 
 export function setPrizeData(state, prizeData) {
