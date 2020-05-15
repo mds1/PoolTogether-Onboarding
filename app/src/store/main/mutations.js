@@ -5,6 +5,7 @@ export function setWallet(state, wallet) {
   state.ethersProvider = wallet.ethersProvider;
   state.userAddress = wallet.userAddress;
   state.email = wallet.email;
+  state.proxy = wallet.proxy;
 }
 
 export function setPrizeData(state, prizeData) {

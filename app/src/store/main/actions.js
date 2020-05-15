@@ -4,7 +4,12 @@ import { date } from 'quasar';
 // Helpers for PoolTogether prize calculation ======================================================
 const pt = require('pooltogetherjs');
 const poolTogetherDrawDates = require('src/utils/poolTogetherDrawDates');
+const contracts = require('../../../../.openzeppelin/kovan.json');
 const addresses = require('../../../../addresses.json');
+
+addresses.UserPool = contracts.proxies['pooltogether-onboarding/UserPool'][0].address;
+addresses.UserPoolFactory = contracts.proxies['pooltogether-onboarding/UserPoolFactory'][0].address;
+
 
 const abi = {
   /* eslint-disable global-require */
@@ -12,6 +17,8 @@ const abi = {
   basePool: require('../../../../abi/basePool.json'),
   multicall: require('../../../../abi/multicall.json'),
   cdai: require('../../../../abi/cdai.json'),
+  userPoolFactory: require('../../../../build/contracts/UserPoolFactory.json').abi,
+  userPool: require('../../../../build/contracts/UserPool.json').abi,
   /* eslint-enable global-require */
 };
 
@@ -67,14 +74,15 @@ const getPoolTogetherDaiPrize = (balance, accountedBalance, draw, supplyRatePerB
 
 // Actions start here ==============================================================================
 export async function setDefaultEthereumData({ commit }, ethersProvider) {
-  // Use default provider info if not logged in
-  const magic = undefined;
-  const provider = undefined;
-  const signer = undefined;
-  const userAddress = undefined;
-  const email = undefined;
+  // Set to default provider info if not logged in
   commit('setWallet', {
-    magic, provider, ethersProvider, signer, userAddress, email,
+    magic: undefined,
+    provider: undefined,
+    ethersProvider,
+    signer: undefined,
+    userAddress: undefined,
+    email: undefined,
+    proxy: undefined,
   });
 }
 
@@ -85,8 +93,23 @@ export async function setEthereumData({ commit }, magic) {
   const signer = ethersProvider.getSigner();
   const metadata = await magic.user.getMetadata();
   const { email, publicAddress } = metadata;
+
+  console.log(0);
+  const testAddress = await signer.getAddress();
+  console.log(testAddress);
+  console.log(publicAddress);
+
+  // // Lookup proxy info
+  console.log(1);
+  const factory = new ethers.Contract(
+    addresses.UserPoolFactory, abi.userPoolFactory, ethersProvider,
+  );
+  console.log(2);
+  const proxy = await factory.getContract(publicAddress);
+  console.log(3);
+
   commit('setWallet', {
-    magic, provider, ethersProvider, signer, userAddress: publicAddress, email,
+    magic, provider, ethersProvider, signer, userAddress: publicAddress, email, proxy,
   });
 }
 
@@ -98,7 +121,7 @@ export async function setPrizeData({ commit, state }) {
   const cdai = new ethers.Contract(addresses.Cdai, abi.cdai, state.ethersProvider);
 
   // Read data ----------------------------------------------
-  const [, response] = await multicall.callStatic.aggregate([
+  const [, response] = await multicall.aggregate([
     [addresses.BasePool, basePool.interface.encodeFunctionData('currentCommittedDrawId')], // draw ID
     [addresses.BasePool, basePool.interface.encodeFunctionData('balance')], // all deposits + accrued interest
     [addresses.BasePool, basePool.interface.encodeFunctionData('accountedBalance')], // funds allocated to winners, etc.
