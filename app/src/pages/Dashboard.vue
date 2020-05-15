@@ -31,7 +31,7 @@
 
     <div class="q-mt-xl">
       <q-btn
-        v-if="!isAuthCheckLoading"
+        v-if="!isAuthCheckLoading && userAddress"
         color="secondary"
         class="q-mt-xl"
         :flat="true"
@@ -49,6 +49,7 @@ import DashboardFiatDeposit from 'components/DashboardFiatDeposit';
 import DashboardEnterPool from 'components/DashboardEnterPool';
 import DashboardExitPool from 'components/DashboardExitPool';
 import auth from 'src/mixins/auth';
+import { ethers } from 'ethers';
 
 export default {
   name: 'Dashboard',
@@ -71,6 +72,8 @@ export default {
   methods: {
     async logout() {
       await this.magic.user.logout();
+      const ethersProvider = ethers.getDefaultProvider('kovan');
+      await this.$store.dispatch('main/setDefaultEthereumData', ethersProvider);
       this.$router.push({ name: 'home' });
     },
   },

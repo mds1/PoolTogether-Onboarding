@@ -94,19 +94,11 @@ export async function setEthereumData({ commit }, magic) {
   const metadata = await magic.user.getMetadata();
   const { email, publicAddress } = metadata;
 
-  console.log(0);
-  const testAddress = await signer.getAddress();
-  console.log(testAddress);
-  console.log(publicAddress);
-
-  // // Lookup proxy info
-  console.log(1);
+  // Lookup proxy info
   const factory = new ethers.Contract(
-    addresses.UserPoolFactory, abi.userPoolFactory, ethersProvider,
+    addresses.UserPoolFactory, abi.userPoolFactory, signer,
   );
-  console.log(2);
   const proxy = await factory.getContract(publicAddress);
-  console.log(3);
 
   commit('setWallet', {
     magic, provider, ethersProvider, signer, userAddress: publicAddress, email, proxy,
