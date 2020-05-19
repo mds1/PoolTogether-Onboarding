@@ -6,6 +6,12 @@ export default function () {
     ethersProvider: undefined,
     userAddress: undefined,
     email: undefined,
+    // Balances
+    balances: {
+      daiInProxy: undefined,
+      committedBalance: undefined,
+      openBalance: undefined,
+    },
     // Contracts
     proxyLogic: undefined, // proxy logic address
     proxy: undefined, // user proxy address

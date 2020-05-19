@@ -6,6 +6,12 @@ export function setWallet(state, wallet) {
   state.ethersProvider = wallet.ethersProvider;
   state.userAddress = wallet.userAddress;
   state.email = wallet.email;
+  // Balances
+  if (wallet.balances) {
+    state.balances.daiInProxy = wallet.balances.daiInProxy;
+    state.balances.committedBalance = wallet.balances.committedBalance;
+    state.balances.openBalance = wallet.balances.openBalance;
+  }
   // Contracts
   state.proxyLogic = wallet.proxyLogic;
   state.proxy = wallet.proxy;

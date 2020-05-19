@@ -108,10 +108,19 @@ export async function setEthereumData({ commit }, magic) {
   );
   const proxy = await factory.getContract(publicAddress);
 
-  // Create GSN factory instance and regular proxy instance
+  // Create GSN factory instance
   const web3gsn = new Web3(new GSNProvider(provider));
-  const proxyInstance = new web3gsn.eth.Contract(abi.userPool, proxy);
   const factoryInstance = new web3gsn.eth.Contract(abi.userPoolFactory, addresses.UserPoolFactory);
+
+  // Create regular contract instances
+  const proxyInstance = new ethers.Contract(proxy, abi.userPool, ethersProvider);
+  const basePool = new ethers.Contract(addresses.BasePool, abi.basePool, ethersProvider);
+  const dai = new ethers.Contract(addresses.Dai, abi.dai, ethersProvider);
+
+  // Get balances
+  const daiInProxy = utils.formatEther(await dai.balanceOf(proxy));
+  const committedBalance = utils.formatEther(await basePool.committedBalanceOf(proxy));
+  const openBalance = utils.formatEther(await basePool.openBalanceOf(proxy));
 
 
   commit('setWallet', {
@@ -125,6 +134,11 @@ export async function setEthereumData({ commit }, magic) {
     proxy,
     proxyInstance,
     factoryInstance,
+    balances: {
+      daiInProxy,
+      committedBalance,
+      openBalance,
+    },
   });
 }
 

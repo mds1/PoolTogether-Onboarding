@@ -41,5 +41,32 @@ export default {
       else if (typeof err === 'string') this.notifyUser('negative', err);
       else this.notifyUser('negative', msg);
     },
+
+    /**
+     * @notice Takes in a number and returns a string version formatted as USD
+     * @param {number, string} value the number to be formatted
+     * @param {number} minDigits minimum number of decimal places to show
+     * @param {number} maxDigits minimum number of decimal places to show
+     * @returns {string} the value formatted as USD
+     */
+    formatCurrency(value, minDigits = 2, maxDigits = 4) {
+      // Convert to a number if given a string
+      let numberValue = typeof value === 'string' ? Number(value) : value;
+      // Fix floating point error for numbers near zero
+      numberValue = numberValue < 0 && numberValue > -1e-6 ? 0 : numberValue;
+      const isNegative = numberValue < 0;
+      // Format number
+      if (numberValue === undefined || numberValue === null || Number.isNaN(numberValue)) {
+        return '$-';
+      }
+      const dollarAmount = numberValue.toLocaleString(undefined, {
+        minimumFractionDigits: minDigits,
+        maximumFractionDigits: maxDigits,
+      });
+      if (isNegative) {
+        return `-$${Math.abs(dollarAmount)}`;
+      }
+      return `$${dollarAmount}`;
+    },
   },
 };
