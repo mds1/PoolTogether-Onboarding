@@ -102,6 +102,7 @@
 <script>
 import { mapState } from 'vuex';
 import { ethers } from 'ethers';
+import transakSDK from '@transak/transak-sdk';
 import helpers from 'src/mixins/helpers';
 
 const { constants } = ethers;
@@ -130,29 +131,59 @@ export default {
   methods: {
     redirectToWyre() {
       try {
-        // Check if we are in dev or prod
-        let wyreUrlPrefix = 'sendwyre';
-        if (process.env.WYRE_ENV === 'dev') {
-          wyreUrlPrefix = 'testwyre';
-        }
-
         // Define where to redirect to once hosted Widget flow is completed
-        const widgetRedirectUrl = `${window.location.origin}/?isWaitingForPurchase=true`;
+        const redirectUrl = `${window.location.origin}/?isWaitingForPurchase=true`;
 
-        // Define and temporarily save off options used to load the widget
-        const widgetOptions = {
-          dest: `ethereum:${this.proxy}`,
-          destCurrency: 'DAI',
-          // sourceAmount: undefined,
-          paymentMethod: 'debit-card',
-          redirectUrl: widgetRedirectUrl,
-          accountId: process.env.WYRE_ACCOUNT_ID,
-        };
-        this.$q.localStorage.set('widgetDepositOptions', widgetOptions);
+        const transak = new transakSDK({ // eslint-disable-line new-cap
+          apiKey: process.env.TRANSAK_API_KEY,
+          cryptoCurrencyCode: 'DAI',
+          defaultCryptoCurrency: 'DAI',
+          disableWalletAddressForm: true,
+          email: '', // Your customer's email address
+          environment: 'STAGING', // STAGING or PRODUCTION
+          fiatCurrency: '', // INR/GBP
+          hostURL: window.location.origin,
+          redirectURL: redirectUrl,
+          themeColor: '5029AB', // App theme color
+          walletAddress: this.proxy, // User's wallet address
+          widgetHeight: '550px',
+          widgetWidth: '450px',
+        });
 
-        // Load the new page and exit this function
-        const widgetUrl = `https://pay.${wyreUrlPrefix}.com/purchase?dest=${widgetOptions.dest}&destCurrency=${widgetOptions.destCurrency}&sourceAmount=${widgetOptions.sourceAmount}&paymentMethod=${widgetOptions.paymentMethod}&redirectUrl=${widgetOptions.redirectUrl}&accountId=${widgetOptions.accountId}`; // eslint-disable-line
-        window.location.href = widgetUrl;
+        transak.init();
+
+        // To get all the events
+        transak.on(transak.ALL_EVENTS, (data) => {
+          console.log(data); // eslint-disable-line no-console
+        });
+
+        // This will trigger when the user marks payment is made.
+        transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+          console.log(orderData); // eslint-disable-line no-console
+          transak.close();
+        });
+
+        // // Check if we are in dev or prod
+        // let wyreUrlPrefix = 'sendwyre';
+        // if (process.env.WYRE_ENV === 'dev') {
+        //   wyreUrlPrefix = 'testwyre';
+        // }
+
+
+        // // Define and temporarily save off options used to load the widget
+        // const widgetOptions = {
+        //   dest: `ethereum:${this.proxy}`,
+        //   destCurrency: 'DAI',
+        //   // sourceAmount: undefined,
+        //   paymentMethod: 'debit-card',
+        //   redirectUrl,
+        //   accountId: process.env.WYRE_ACCOUNT_ID,
+        // };
+        // this.$q.localStorage.set('widgetDepositOptions', widgetOptions);
+
+        // // Load the new page and exit this function
+        // const widgetUrl = `https://pay.${wyreUrlPrefix}.com/purchase?dest=${widgetOptions.dest}&destCurrency=${widgetOptions.destCurrency}&sourceAmount=${widgetOptions.sourceAmount}&paymentMethod=${widgetOptions.paymentMethod}&redirectUrl=${widgetOptions.redirectUrl}&accountId=${widgetOptions.accountId}`; // eslint-disable-line
+        // window.location.href = widgetUrl;
       } catch (err) {
         this.showError(err);
       } finally {
