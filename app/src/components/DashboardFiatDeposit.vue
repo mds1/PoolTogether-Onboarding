@@ -7,7 +7,7 @@
           01. Deposit Funds
         </div>
         <div class="text-subtitle2">
-          Use your credit or debit card to buy tickets
+          Use your debit card to buy tickets
         </div>
       </q-card-section>
 
@@ -143,7 +143,7 @@ export default {
         const widgetOptions = {
           dest: `ethereum:${this.proxy}`,
           destCurrency: 'DAI',
-          sourceAmount: undefined,
+          // sourceAmount: undefined,
           paymentMethod: 'debit-card',
           redirectUrl: widgetRedirectUrl,
           accountId: process.env.WYRE_ACCOUNT_ID,
@@ -176,7 +176,7 @@ export default {
               console.log('Transaction receipt: ', receipt);
               await this.$store.dispatch('main/getProxy', this.userAddress);
               this.isDeployed = true;
-              this.isDeployingProxy = false;
+              // this.isDeployingProxy = false;
             })
             .catch((err) => {
               this.showError(err);

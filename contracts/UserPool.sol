@@ -1,12 +1,16 @@
 pragma solidity ^0.6.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./BasePool.sol";
 
 
-contract UserPool is Ownable, Initializable {
+contract UserPool is Initializable {
+  /**
+   * @notice The user will be the contract owner
+   */
+  address public owner;
+
   /**
    * @notice This variable is the address of the parent factory contract. This is used to
    * restrict function calls to being either directly from the user or from the factory contract
@@ -55,8 +59,11 @@ contract UserPool is Ownable, Initializable {
   //                                        MAIN FUNCTIONALITY
   // ===============================================================================================
 
+  /**
+   * @notice Only let user call a function, either directly or via the GSN-enabled factory
+   */
   modifier onlyUser() {
-    require(owner() == _msgSender() || factory == _msgSender(), "UserPool: Caller not authorized");
+    require(owner == msg.sender || factory == msg.sender, "UserPool: Caller not authorized");
     _;
   }
 
@@ -65,8 +72,9 @@ contract UserPool is Ownable, Initializable {
    * @param _user The user who this contract is for
    */
   function initializePool(address _user) external initializer {
-    dai.approve(address(pool), uint256(-1));
-    transferOwnership(_user); // change ownership from factory to user
+    owner = _user;
+    factory = msg.sender; // set factory address
+    require(dai.approve(address(pool), uint256(-1)), "UserPool: Dai approval failed");
   }
 
   /**
@@ -109,7 +117,7 @@ contract UserPool is Ownable, Initializable {
     IERC20 _token = IERC20(_tokenAddress);
     uint256 _balance = _token.balanceOf(address(this));
     emit TokensWithdrawn(_balance, _tokenAddress, _recipient);
-    _token.transfer(_recipient, _balance);
+    require(_token.transfer(_recipient, _balance), "UserPool: Token withdrawal failed");
   }
 
   /**

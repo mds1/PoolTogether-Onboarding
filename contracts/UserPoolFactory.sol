@@ -231,7 +231,7 @@ contract UserPoolFactory is Ownable, GSNRecipient {
   // prettier-ignore
   function _msgSender() internal view override(Context, GSNRecipient) returns (address payable) {
     return GSNRecipient._msgSender();
-}
+  }
 
   /**
    * @notice GSN function override

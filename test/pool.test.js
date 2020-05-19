@@ -28,13 +28,11 @@ const UserPool = contract.fromArtifact('UserPool');
 describe('UserPool', () => {
   const [factory, user] = accounts;
   let userPool;
-  let receipt;
 
   beforeEach(async () => {
     // Deploy new instance of user's pool contract
     userPool = await UserPool.new({ from: factory });
-    // We check this receipt for the event logs later in a test
-    receipt = await userPool.initializePool(user, { from: factory });
+    await userPool.initializePool(user, { from: factory });
   });
 
   // Deployment and Initialization =================================================================
@@ -45,10 +43,6 @@ describe('UserPool', () => {
 
   it('sets the user as the owner', async () => {
     expect(await userPool.owner()).to.equal(user);
-    expectEvent(receipt, 'OwnershipTransferred', {
-      previousOwner: factory,
-      newOwner: user,
-    });
   });
 
   it('only lets the initialize function be called once', async () => {

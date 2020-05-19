@@ -6,7 +6,7 @@
           02. Enter the Pool
         </div>
         <div class="text-subtitle2">
-          After buying tickets, enter them in the pool for a chance to win!
+          Join the pool for a chance to win!
         </div>
       </q-card-section>
 
