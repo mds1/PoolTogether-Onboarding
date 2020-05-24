@@ -2,7 +2,10 @@
   <div>
     <!-- Connect Wallet -->
     <div style="max-width: 450px; ">
-      <div class="row justify-center items-center">
+      <q-form
+        class="row justify-center items-center"
+        @submit="connectWallet"
+      >
         <base-input
           v-model="email"
           :dense="true"
@@ -20,7 +23,7 @@
           style="margin-top:-1rem;"
           @click="connectWallet"
         />
-      </div>
+      </q-form>
     </div>
   </div>
 </template>

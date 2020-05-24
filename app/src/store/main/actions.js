@@ -118,9 +118,15 @@ export async function setEthereumData({ commit }, magic) {
   const dai = new ethers.Contract(addresses.Dai, abi.dai, ethersProvider);
 
   // Get balances
-  const daiInProxy = utils.formatEther(await dai.balanceOf(proxy));
-  const committedBalance = utils.formatEther(await basePool.committedBalanceOf(proxy));
-  const openBalance = utils.formatEther(await basePool.openBalanceOf(proxy));
+  const zero = utils.formatEther(ethers.constants.Zero);
+  let daiInProxy = zero;
+  let committedBalance = zero;
+  let openBalance = zero;
+  if (proxy !== ethers.constants.AddressZero) {
+    daiInProxy = utils.formatEther(await dai.balanceOf(proxy));
+    committedBalance = utils.formatEther(await basePool.committedBalanceOf(proxy));
+    openBalance = utils.formatEther(await basePool.openBalanceOf(proxy));
+  }
 
 
   commit('setWallet', {

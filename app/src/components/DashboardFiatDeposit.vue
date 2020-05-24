@@ -13,6 +13,12 @@
 
       <q-separator dark />
 
+      <q-card-section>
+        <div class="dashboard-card-subtext">
+          &nbsp;
+        </div>
+      </q-card-section>
+
       <q-card-actions class="row justify-center">
         <base-button
           class="q-my-lg"
@@ -46,7 +52,7 @@
             class="text-center"
           >
             Click the button below to buy some tickets!
-            <div class="text-caption">
+            <div class="text-caption text-center">
               You must buy a mininum of at least $1.
             </div>
           </div>
@@ -90,7 +96,7 @@
             <base-button
               label="Continue to Purchase"
               :disabled="!isDeployed"
-              @click="redirectToWyre"
+              @click="redirectToFiatProcessor"
             />
           </div>
         </q-card-actions>
@@ -129,9 +135,10 @@ export default {
   },
 
   methods: {
-    redirectToWyre() {
+    redirectToFiatProcessor() {
       try {
         // Define where to redirect to once hosted Widget flow is completed
+        this.isDeployingProxy = false;
         const redirectUrl = `${window.location.origin}/?isWaitingForPurchase=true`;
 
         const transak = new transakSDK({ // eslint-disable-line new-cap
@@ -218,7 +225,7 @@ export default {
           this.hasDeploymentStarted = false;
         }
       } else {
-        this.redirectToWyre();
+        this.redirectToFiatProcessor();
       }
     },
   },

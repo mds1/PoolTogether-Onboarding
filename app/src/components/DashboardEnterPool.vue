@@ -12,10 +12,19 @@
 
       <q-separator dark />
 
+      <q-card-section>
+        <div class="dashboard-card-subtext">
+          You currently have ${{ availableBalance }} which will get
+          you {{ availableBalance }} tickets
+        </div>
+      </q-card-section>
+
       <q-card-actions class="row justify-center">
         <base-button
           class="q-my-lg"
+          :disabled="availableBalance < 1"
           label="Enter Pool"
+          @click="enterPool"
         />
       </q-card-actions>
     </q-card>
@@ -23,10 +32,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'DashboardEnterPool',
+
   data() {
     return {};
+  },
+
+  computed: {
+    ...mapState({
+      availableBalance: (state) => Math.floor(parseInt(state.main.balances.daiInProxy, 10)),
+    }),
+  },
+
+  methods: {
+    enterPool() {
+      // TODO
+      // Create factory contract instance
+      // Send transaction
+    },
   },
 };
 </script>
