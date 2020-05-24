@@ -1,6 +1,7 @@
 export default function () {
   return {
     // Wallet
+    magic: undefined,
     signer: undefined,
     provider: undefined,
     ethersProvider: undefined,
@@ -17,6 +18,7 @@ export default function () {
     proxy: undefined, // user proxy address
     proxyInstance: undefined, // user's proxy contract instance
     factoryInstance: undefined, // factory instance
+    basePoolInstance: undefined,
     // Prize info
     pt: {
       totalEarningInterest: undefined,

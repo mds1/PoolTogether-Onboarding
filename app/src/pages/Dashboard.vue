@@ -4,10 +4,11 @@
       Dashboard
     </h3>
 
+    <!-- ROW OF BALANCES -->
     <div class="row justify-evenly q-mb-xl">
       <div class="col-auto">
         <div class="balance-header">
-          Wallet Balance
+          Account Balance
           <q-icon name="fas fa-info-circle">
             <q-tooltip content-class="info-tooltip">
               This amount is available to enter the pool. Use the
@@ -30,7 +31,7 @@
           </q-icon>
         </div>
         <div class="text-center balance-amount">
-          {{ balances.openBalance }}
+          {{ openBalance }}
         </div>
       </div>
       <div class="col-auto">
@@ -43,7 +44,7 @@
           </q-icon>
         </div>
         <div class="text-center balance-amount">
-          {{ balances.committedBalance }}
+          {{ committedBalance }}
         </div>
       </div>
     </div>
@@ -59,6 +60,7 @@
       </div>
     </div>
 
+    <!-- ROW OF ACTION CARDS -->
     <div v-else>
       <div class="row justify-evenly items-stretch">
         <div class="col-xs-3">
@@ -113,6 +115,22 @@ export default {
       userAddress: (state) => state.main.userAddress,
       balances: (state) => state.main.balances,
     }),
+
+    committedBalance() {
+      if (!this.balances.committedBalance) return '-';
+      return Number(this.balances.committedBalance).toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
+    },
+
+    openBalance() {
+      if (!this.balances.openBalance) return '-';
+      return Number(this.balances.openBalance).toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
+    },
   },
 
   methods: {

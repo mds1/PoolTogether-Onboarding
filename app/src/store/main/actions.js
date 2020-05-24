@@ -140,6 +140,7 @@ export async function setEthereumData({ commit }, magic) {
     proxy,
     proxyInstance,
     factoryInstance,
+    basePoolInstance: basePool,
     balances: {
       daiInProxy,
       committedBalance,

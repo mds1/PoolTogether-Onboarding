@@ -24,6 +24,7 @@
           class="q-my-lg"
           :disabled="availableBalance < 1"
           label="Enter Pool"
+          :loading="isLoading"
           @click="enterPool"
         />
       </q-card-actions>
@@ -33,25 +34,35 @@
 
 <script>
 import { mapState } from 'vuex';
+import helpers from 'src/mixins/helpers';
 
 export default {
   name: 'DashboardEnterPool',
 
+  mixins: [helpers],
+
   data() {
-    return {};
+    return {
+      isLoading: undefined,
+    };
   },
 
   computed: {
     ...mapState({
+      magic: (state) => state.main.magic,
       availableBalance: (state) => Math.floor(parseInt(state.main.balances.daiInProxy, 10)),
+      userAddress: (state) => state.main.userAddress,
+      factoryInstance: (state) => state.main.factoryInstance,
     }),
   },
 
   methods: {
-    enterPool() {
-      // TODO
-      // Create factory contract instance
-      // Send transaction
+    async enterPool() {
+      this.isLoading = true;
+      await this.factoryInstance.methods.deposit().send({ from: this.userAddress });
+      await this.$store.dispatch('main/setEthereumData', this.magic); // update user balances
+      this.isLoading = false;
+      this.notifyUser('positive', 'You have successfully entered the pool. Win that money!');
     },
   },
 };

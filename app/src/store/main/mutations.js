@@ -17,6 +17,7 @@ export function setWallet(state, wallet) {
   state.proxy = wallet.proxy;
   state.proxyInstance = wallet.proxyInstance;
   state.factoryInstance = wallet.factoryInstance;
+  state.basePoolInstance = wallet.basePoolInstance;
 }
 
 export function setProxyAddress(state, address) {
