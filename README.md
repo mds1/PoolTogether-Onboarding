@@ -5,7 +5,7 @@ The easiest way to start using PoolTogether
 ## Overview
 
 - [Live site](https://pool-together.web.app/) (deployed on Kovan)
-- Video demo (coming soon)
+- [Video demo](https://youtu.be/nZ3WNraM3Rs)
 
 This tool enables an easy fiat on/off ramp for entering/exiting the PoolTogether pool. Features:
 
