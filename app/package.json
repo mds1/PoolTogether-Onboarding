@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ./",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "npx quasar dev"
+    "dev": "npx quasar dev",
+    "build": "npx quasar build && firebase deploy"
   },
   "dependencies": {
     "@openzeppelin/gsn-provider": "^0.1.10",
